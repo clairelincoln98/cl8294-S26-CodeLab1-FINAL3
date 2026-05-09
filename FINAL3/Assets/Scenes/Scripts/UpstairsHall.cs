@@ -76,7 +76,7 @@ public class UpstairsHall : Location
             inspectButton2.transform.localPosition = itemButtonLocation;
             
             //adds letter 2 to inventory to trigger next inspection 
-            keyButtonComp.onClick.AddListener(() => gm.UseItem(secondInspectText));
+            //keyButtonComp.onClick.AddListener(() => gm.UseItem(secondInspectText));
             
         }
         
@@ -100,26 +100,17 @@ public class UpstairsHall : Location
 
 
   
-    public override void specialUseItem(GameManager gm)
-    {
-            Debug.Log("double painting triggered");
-            inspectButton = ButtonCreator.instance.CreateButton(takeItemText);
-            inspectButton.transform.localPosition = itemButtonLocation;
-            Button itemButtonComp = inspectButton.GetComponent<Button>();
-            //calls takeItem in game manager to add key to inventory when take key is pressed 
-            itemButtonComp.onClick.AddListener(() => gm.secondTakeItemReveal(secondInspectionText, "MAP"));
-            
-    }
-    // public override void secondTakeItem(GameManager gm)
+    // public override void specialUseItem(GameManager gm)
     // {
-    //     Debug.Log("double painting triggered");
-    //     inspectButton = ButtonCreator.instance.CreateButton(takeItemText);
-    //     inspectButton.transform.localPosition = itemButtonLocation;
-    //     Button itemButtonComp = inspectButton.GetComponent<Button>();
-    //     //calls takeItem in game manager to add key to inventory when take key is pressed 
-    //     itemButtonComp.onClick.AddListener(() => gm.TakeItem("MAP"));
+    //         Debug.Log("double painting triggered");
+    //         inspectButton = ButtonCreator.instance.CreateButton(takeItemText);
+    //         inspectButton.transform.localPosition = itemButtonLocation;
+    //         Button itemButtonComp = inspectButton.GetComponent<Button>();
+    //         //calls takeItem in game manager to add key to inventory when take key is pressed 
+    //         itemButtonComp.onClick.AddListener(() => gm.secondTakeItemReveal(secondInspectionText, "MAP"));
     //         
     // }
+    //
     
     public override void DestroyButton()
     {

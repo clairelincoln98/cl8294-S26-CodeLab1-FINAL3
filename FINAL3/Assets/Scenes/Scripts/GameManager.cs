@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.UIElements;
 using UnityEngine.WSA;
+using Button = UnityEngine.UI.Button;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,6 +18,9 @@ public class GameManager : MonoBehaviour
     public GameObject EastButton;
     public GameObject SouthButton;
     public GameObject WestButton;
+    
+    GameObject itemButton;
+    public Vector2 itemButtonLocation;
 
     public GameObject fireplace;
     public GameObject desk;
@@ -203,12 +207,13 @@ public class GameManager : MonoBehaviour
     
     
    //calls grabitem to add item to dictionary
-    public void TakeItem(string itemName) 
+    public void TakeItem(string itemName, GameObject button) 
         //***this as a separate function probably wasn't necessary, but maybe it would help if the itemText changes
     {
         //calls grab item and sets the parameter itemText to You Have:
+        Destroy(button);
         GrabItem(itemName); 
-        currentLocation.DestroyButton();
+        
         
         
     } 
@@ -302,49 +307,60 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void UseItem(string usedItemText)
+    public void UseItem(string currentText, GameObject button)
     {
-        locationDescriptionDisplay.text = usedItemText; 
-        currentLocation.DestroyUseItemButton();
+        Destroy(button);
+        Debug.Log("Use Item");
+        locationDescriptionDisplay.text = currentText; 
         
-        if (isDoubleLocation)
-        {
-            Debug.Log(isDoubleLocation);
-            currentLocation.specialUseItem(this);
-            currentLocation.DestroyUseItemButton();
-        }
+        currentLocation.currentState = Location.stateEnum.ItemOneUsed;
         
+
     }
 
-    public void secondTakeItemReveal(string secondItemDescritpion, string neededItemName)
+    public void RevealText(string currentText)
     {
-        // if (neededItemName == "MAP")
-        // {
-        //     locationDescriptionDisplay.text = secondItemDescritpion;
-        //     currentLocation.secondTakeItem(this);
-        // }
-        locationDescriptionDisplay.text = secondItemDescritpion;
-        currentLocation.DestroyButton();
-        TakeItem(neededItemName);
-        
-        
+        locationDescriptionDisplay.text = currentText; 
+    }
+    
+
+
+    public void SpecialClick(string currentText, string buttonText, string itemName)
+    {
+    
+        Debug.Log("special click");
+        currentLocation.Special(currentText, buttonText, itemName);
     }
 
-    ///ODO: Create an ON Enter function in Location to get overridden
-    //TO: Create extensions from Location that are specific 
-    //TO: In SpecificLocation, overide the on etner and on exit
-    //TOD0: Button Action function that handles the button behavior 
-
-
-    // public void SpecialClick()
-    // {
-    //
-    //     currentLocation.Special();
-    // }
-
-    // public void UpdateText();
-    // {
-    //
-    // }
+    public void UpdateTextCreateUseItemButton(string currentText, string buttonText)
+    {
+        locationDescriptionDisplay.text = currentText;
+        itemButton = ButtonCreator.instance.CreateButton(buttonText);
+        Debug.Log(buttonText);
+        itemButton.transform.localPosition = itemButtonLocation;
+        Button keyButtonComp = itemButton.GetComponent<Button>();
+        // //calls takeItem in game manager to add key to inventory when take key is pressed 
+        keyButtonComp.onClick.AddListener(() => UseItem(currentText, itemButton));
+    }
+    
+    public void UpdateTextCreateTakeItemButton(string currentText, string buttonText, string itemName)
+    {
+         currentLocation.DestroyUseItemButton();
+         locationDescriptionDisplay.text = currentText;
+         itemButton = ButtonCreator.instance.CreateButton(buttonText);
+         itemButton.transform.localPosition = itemButtonLocation;
+         Button keyButtonComp = itemButton.GetComponent<Button>();
+         keyButtonComp.onClick.AddListener(() => TakeItem(itemName, itemButton));
+    }
+    
+    public void UpdateTextUpdateButton(string currentText, string buttonText)
+    {
+        locationDescriptionDisplay.text = currentText;
+        itemButton = ButtonCreator.instance.CreateButton(buttonText);
+        itemButton.transform.localPosition = itemButtonLocation;
+        Button keyButtonComp = itemButton.GetComponent<Button>();
+        // //calls takeItem in game manager to add key to inventory when take key is pressed 
+        keyButtonComp.onClick.AddListener(() => RevealText(currentText));
+    }
 
 }

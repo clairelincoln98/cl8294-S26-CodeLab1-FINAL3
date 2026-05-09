@@ -12,7 +12,7 @@ public class LivingRoom : Location
     GameObject itemButton;
     GameObject useItemButton;
     public Vector2 buttonLocation = new Vector2(-749, 3);
-    public Vector2 itemButtonLocation = new Vector2(4, -173);
+     
     
     //text variables
     public string defaultText = "Fireplace";
@@ -24,9 +24,7 @@ public class LivingRoom : Location
     public string phase3Text = "Nothing left here but soggy wood.";
     public string gainedItem = "ALBUM";
     
-
-
- 
+    
 
 //a function that determines what happens when the player enters the living room
 
@@ -54,41 +52,34 @@ public class LivingRoom : Location
 
     
 
-
     public void RevealText(GameManager gm)
     {
         string newText = phase0Text;
         
         //calls check items from game manager to see what items the player has
         gm.CheckItems();
-      
-       //FOR TESTING
         
-            // itemButton = ButtonCreator.instance.CreateButton(itemButtonLocation, itemText);
-            // Button keyButtonComp = itemButton.GetComponent<Button>();
-            // //calls takeItem in game manager to add key to inventory when take key is pressed 
-            // keyButtonComp.onClick.AddListener(() => gm.TakeItem("KEY"));
-            
         
         //checks if the player has pliers
         if (gm.hasPliers)
         {
-            //sets the description text to the next phase of fireplace response
-            useItemButton = ButtonCreator.instance.CreateButton(useItemText);
-            Button keyButtonComp = useItemButton.GetComponent<Button>();
-            useItemButton.transform.localPosition = itemButtonLocation;
-            //calls takeItem in game manager to add key to inventory when take key is pressed 
-            keyButtonComp.onClick.AddListener(() => gm.UseItem("Looks like someone tried to burn a journal of some kind. It might help me get out of here, but I need to put out this fire."));
+            currentState = stateEnum.hasItemOne;
+            string itemName = "";
+            string currentText = "Looks like someone tried to burn a journal of some kind. It might help me get out of here, but I need to put out this fire.";
+            Debug.Log(currentText);
+            string buttonText = useItemText;
+            
+            gm.SpecialClick(currentText, buttonText, itemName);
         }
-
-        // if (gm.hasPliers)
-        // {
-        //     newText = "I need to put this fire out.";
-        // }
-
+        
         if (gm.hasWater)
-        {   gm.itemsOwned.Remove("PLIERS");
-           
+        {   
+            currentState = stateEnum.hasItemTwo;
+            //gm.itemsOwned.Remove("PLIERS");
+            string currentText = "It's not a journal, it's a photo album.";
+            string buttonText = "Take Album?";
+            string itemName = "Album";
+            gm.SpecialClick(currentText, buttonText, itemName);
             if (gm.hasLetter)
             {
                 newText = "It's not a journal, it's a photo album. And this looks like Lila from the letter.";
@@ -98,13 +89,6 @@ public class LivingRoom : Location
                 newText = "It's not a journal, it's a photo album.";
             }
             gm.locationDescriptionDisplay.text = newText;
-            //NOW THAT THE KEY IS UNLOCKED:
-            //calls CreateButton from game manager to make the "take key" button
-            itemButton = ButtonCreator.instance.CreateButton(useitemText2);
-            itemButton.transform.localPosition = itemButtonLocation;
-            Button keyButtonComp = itemButton.GetComponent<Button>();
-            //calls takeItem in game manager to add key to inventory when take key is pressed 
-            keyButtonComp.onClick.AddListener(() => gm.TakeItem(gainedItem));
             
         }
         

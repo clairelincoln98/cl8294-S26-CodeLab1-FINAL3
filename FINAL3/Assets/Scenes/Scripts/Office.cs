@@ -70,7 +70,7 @@ public class Office : Location
             Button keyButtonComp = useItemButton2.GetComponent<Button>();
             useItemButton2.transform.localPosition = itemButtonLocation;
             //calls takeItem in game manager to add key to inventory when take key is pressed 
-            keyButtonComp.onClick.AddListener(() => gm.UseItem(usedItemText));
+            //keyButtonComp.onClick.AddListener(() => gm.UseItem(usedItemText));
             
         }
 
@@ -89,12 +89,12 @@ public class Office : Location
 
     public override void specialUseItem(GameManager gm)
     {
-        //Debug.Log(gm.itemUsed);
-        useItemButton = ButtonCreator.instance.CreateButton(secondUseItemText);
-        useItemButton.transform.localPosition = itemButtonLocation;
-        Button itemButtonComp = useItemButton.GetComponent<Button>();
-        //calls takeItem in game manager to add key to inventory when take key is pressed 
-        itemButtonComp.onClick.AddListener(() => gm.secondTakeItemReveal(secondItemDescritpion, secondItemName));
+        // //Debug.Log(gm.itemUsed);
+        // useItemButton = ButtonCreator.instance.CreateButton(secondUseItemText);
+        // useItemButton.transform.localPosition = itemButtonLocation;
+        // Button itemButtonComp = useItemButton.GetComponent<Button>();
+        // //calls takeItem in game manager to add key to inventory when take key is pressed 
+        // itemButtonComp.onClick.AddListener(() => gm.secondTakeItemReveal(secondItemDescritpion, secondItemName));
     }
     public override void DestroyButton()
     {

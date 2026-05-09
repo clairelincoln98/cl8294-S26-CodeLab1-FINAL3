@@ -66,7 +66,7 @@ public class Bedroom : Location
             itemButton.transform.localPosition = itemButtonLocation;
             Button itemButtonComp = itemButton.GetComponent<Button>();
             //calls takeItem in game manager to add key to inventory when take key is pressed 
-            itemButtonComp.onClick.AddListener(() => gm.TakeItem("KEY"));
+           itemButtonComp.onClick.AddListener(() => gm.TakeItem("KEY", itemButton));
         
         
         if (gm.hasKey)

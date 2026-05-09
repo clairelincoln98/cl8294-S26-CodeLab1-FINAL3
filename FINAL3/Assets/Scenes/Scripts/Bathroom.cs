@@ -77,7 +77,7 @@ public string takeItemText = "Use Bucket?";
                 
                 Button itemButtonComp = takeItemButton.GetComponent<Button>();
                 //calls takeItem in game manager to add key to inventory when take key is pressed 
-                itemButtonComp.onClick.AddListener(() => gm.TakeItem("WATER"));
+                itemButtonComp.onClick.AddListener(() => gm.TakeItem("WATER", takeItemButton));
                 
                 //the item button has now been pressed
                 

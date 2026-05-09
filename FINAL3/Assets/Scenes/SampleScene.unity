@@ -4392,6 +4392,7 @@ MonoBehaviour:
   EastButton: {fileID: 1259543927}
   SouthButton: {fileID: 308551326}
   WestButton: {fileID: 177361804}
+  itemButtonLocation: {x: 0, y: -130}
   fireplace: {fileID: 467609694}
   desk: {fileID: 203417777}
   bath: {fileID: 504393472}

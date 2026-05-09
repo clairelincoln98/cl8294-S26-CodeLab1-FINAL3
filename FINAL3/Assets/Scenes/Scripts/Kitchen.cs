@@ -82,7 +82,7 @@ public string itemText = "Take Pliers?";
                 
                 Button itemButtonComp = takeItemButton.GetComponent<Button>();
                 //calls takeItem in game manager to add key to inventory when take key is pressed 
-                itemButtonComp.onClick.AddListener(() => gm.TakeItem("PLIERS"));
+                itemButtonComp.onClick.AddListener(() => gm.TakeItem("PLIERS", takeItemButton));
                 
                 //the item button has now been pressed
                 
@@ -102,7 +102,7 @@ public string itemText = "Take Pliers?";
                 
         Button itemButtonComp2 = takeItemButton2.GetComponent<Button>();
         //calls takeItem in game manager to add key to inventory when take key is pressed 
-        itemButtonComp2.onClick.AddListener(() => gm.TakeItem("BUCKET"));
+        itemButtonComp2.onClick.AddListener(() => gm.TakeItem("BUCKET", takeItemButton));
             
                 
             

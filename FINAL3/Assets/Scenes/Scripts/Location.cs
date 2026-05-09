@@ -9,13 +9,7 @@ using UnityEngine.PlayerLoop;
 public class Location : ScriptableObject
 {
     
-    public enum LocationType
-    {
-        LivingRoom,
-        Bathroom,
-        Kitchen,
-        Hallway
-    }
+    
     //scriptable object is something that can store data in fields
     public string name;
     
@@ -29,6 +23,19 @@ public class Location : ScriptableObject
     public GameObject room;
     public Vector4 cameraColor;
 
+    
+    public enum stateEnum{
+		
+        Locked,
+        hasItemOne,
+        ItemOneUsed,
+        hasItemTwo,
+        ItemTwoUsed,
+        NothingtoDo,
+		
+    }
+    
+    public stateEnum currentState = stateEnum.Locked;
     // public ButtonDef[] buttonList;
 
     public virtual void OnEnter(GameManager gm)
@@ -93,17 +100,30 @@ public class Location : ScriptableObject
     //take item function
     //do item function
     //in location, create enum of the special type
-    //if(SpecialTpe = updateText)
-    // public void Special()
-    // {
-    //     if(special_type = updateText)
-    //     {
-    //         //THIS IS ALL THE BUTTON FUNCTIONS BASED ON THE ENUM STATE OF THE LOCATION
-    //         GameManager.instance.UpdateText();
-    //         GameManager.instance.UpdateButton(); //updates the button text and display text AND changes the enum state of the living room
-    //         //IN GAME MANAGER, WHEN YOU DO UPDATE TEXT 
-    //     }
-    // }
+   
+    public void Special(string currentText, string buttonText, string itemName)
+    {
+        Debug.Log("special called)");
+        if(currentState == stateEnum.hasItemOne)
+       {
+            GameManager.instance.UpdateTextCreateUseItemButton(currentText, buttonText);
+            //GameManager.instance.UpdateButtonText()
+            //GameManager.instance.UpdateButton(); //updates the button text and display text AND changes the enum state of the living room
+            //IN GAME MANAGER, WHEN YOU DO UPDATE TEXT 
+        }
+       
+        
+        if(currentState == stateEnum.ItemOneUsed)
+        {
+            GameManager.instance.UpdateTextCreateTakeItemButton(currentText, buttonText, itemName); 
+        }
+        
+        if(currentState == stateEnum.hasItemTwo)
+        {
+            GameManager.instance.UpdateTextCreateTakeItemButton(currentText, buttonText, itemName);
+        }
+        
+    }
     
     //IN LIVING ROOM HAS TEXT, INVENTORY ITEMS (ADD ITEMS THROUGH LOCATION.ADDITEMS)
 }
