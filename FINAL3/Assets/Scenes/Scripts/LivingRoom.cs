@@ -58,49 +58,65 @@ public class LivingRoom : Location
         
         //calls check items from game manager to see what items the player has
         gm.CheckItems();
-        
-        
-        //checks if the player has pliers
-        if (gm.hasPliers)
-        {
-            currentState = stateEnum.hasItemOne;
-            string itemName = "";
-            string currentText = "Looks like someone tried to burn a journal of some kind. It might help me get out of here, but I need to put out this fire.";
-            Debug.Log(currentText);
-            string buttonText = useItemText;
-            
-            gm.SpecialClick(currentText, buttonText, itemName);
-        }
-        
-        if (gm.hasWater)
-        {   
-            currentState = stateEnum.hasItemTwo;
-            //gm.itemsOwned.Remove("PLIERS");
-            string currentText = "It's not a journal, it's a photo album.";
-            string buttonText = "Take Album?";
-            string itemName = "Album";
-            gm.SpecialClick(currentText, buttonText, itemName);
-            if (gm.hasLetter)
-            {
-                newText = "It's not a journal, it's a photo album. And this looks like Lila from the letter.";
-            }
-            else
-            {
-                newText = "It's not a journal, it's a photo album.";
-            }
-            gm.locationDescriptionDisplay.text = newText;
-            
-        }
+        currentState = stateEnum.Locked;
+        switch (currentState)
 
-        if (gm.hasAlbum)
         {
-            currentState = stateEnum.NothingtoDo;
-            newText = phase3Text;
-        }
-        
-        gm.locationDescriptionDisplay.text = newText;
+            case stateEnum.Locked:
 
-       
+                //checks if the player has pliers
+                if (gm.hasPliers)
+                {
+                    currentState = stateEnum.hasItemOne;
+                    string itemName = "";
+                    string currentText = "Looks like someone tried to burn a journal of some kind. It might help me get out of here, but I need to put out this fire.";
+                    Debug.Log(currentText);
+                    string buttonText = useItemText;
+
+                    gm.SpecialClick(currentText, buttonText, itemName);
+                }
+                else
+                {
+                    gm.locationDescriptionDisplay.text = "There seems to be something in here, but I can't get past the metal screen.";
+                }
+
+                break;
+
+            case stateEnum.ItemOneUsed:
+
+                if (gm.hasWater)
+                {
+                    currentState = stateEnum.hasItemTwo;
+                    //gm.itemsOwned.Remove("PLIERS");
+                    string currentText = "It's not a journal, it's a photo album.";
+                    string buttonText = "Take Album?";
+                    string itemName = "Album";
+                    gm.SpecialClick(currentText, buttonText, itemName);
+                    if (gm.hasLetter)
+                    {
+                        newText = "It's not a journal, it's a photo album. And this looks like Lila from the letter.";
+                    }
+                    else
+                    {
+                        newText = "It's not a journal, it's a photo album.";
+                    }
+
+                    gm.locationDescriptionDisplay.text = newText;
+
+                }
+
+                break;
+            case stateEnum.NothingtoDo:
+                if (gm.hasAlbum)
+                {
+                    currentState = stateEnum.NothingtoDo;
+                    gm.locationDescriptionDisplay.text = phase3Text;
+                }
+
+                break;
+                
+
+        }
     }
 
 
