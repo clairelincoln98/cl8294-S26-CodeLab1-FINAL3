@@ -115,11 +115,13 @@ public class Location : ScriptableObject
         
         if(currentState == stateEnum.ItemOneUsed)
         {
+            //Debug.Log("hasItemTwo");
             GameManager.instance.UpdateTextCreateTakeItemButton(currentText, buttonText, itemName); 
         }
         
         if(currentState == stateEnum.hasItemTwo)
         {
+            Debug.Log("hasItemTwo");
             GameManager.instance.UpdateTextCreateTakeItemButton(currentText, buttonText, itemName);
         }
         

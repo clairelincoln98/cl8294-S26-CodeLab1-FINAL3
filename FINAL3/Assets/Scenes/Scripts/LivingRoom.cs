@@ -91,12 +91,12 @@ public class LivingRoom : Location
             gm.locationDescriptionDisplay.text = newText;
             
         }
-        
-        else
+
+        if (gm.hasAlbum)
         {
+            currentState = stateEnum.NothingtoDo;
             newText = phase3Text;
         }
-       
         
         gm.locationDescriptionDisplay.text = newText;
 

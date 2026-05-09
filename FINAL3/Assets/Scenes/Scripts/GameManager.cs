@@ -214,8 +214,6 @@ public class GameManager : MonoBehaviour
         Destroy(button);
         GrabItem(itemName); 
         
-        
-        
     } 
     
     //adds the item and its text to the dictionary
@@ -312,7 +310,6 @@ public class GameManager : MonoBehaviour
         Destroy(button);
         Debug.Log("Use Item");
         locationDescriptionDisplay.text = currentText; 
-        
         currentLocation.currentState = Location.stateEnum.ItemOneUsed;
         
 
@@ -350,6 +347,7 @@ public class GameManager : MonoBehaviour
          itemButton = ButtonCreator.instance.CreateButton(buttonText);
          itemButton.transform.localPosition = itemButtonLocation;
          Button keyButtonComp = itemButton.GetComponent<Button>();
+         Debug.Log(buttonText);
          keyButtonComp.onClick.AddListener(() => TakeItem(itemName, itemButton));
     }
     
