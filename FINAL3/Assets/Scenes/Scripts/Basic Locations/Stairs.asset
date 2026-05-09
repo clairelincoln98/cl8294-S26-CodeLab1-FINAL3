@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be1ca9d4193a81a44ad7fc15194938a2, type: 3}
+  m_Name: Stairs
+  m_EditorClassIdentifier: Assembly-CSharp::Location
+  name: Stairs
+  locationType: 0
+  description: These stairs are old and creaky. They seem to go on for ever....
+  northLocation: {fileID: 11400000, guid: e2e5767893c27ef41b3111cad1960470, type: 2}
+  westLocation: {fileID: 0}
+  eastLocation: {fileID: 0}
+  southLocation: {fileID: 11400000, guid: d9e61a7ffedff2141847530822115873, type: 2}
+  room: {fileID: 0}
+  cameraColor: {x: 0.02, y: 0.05, z: 0.08, w: 1}
+  instance: {fileID: 0}

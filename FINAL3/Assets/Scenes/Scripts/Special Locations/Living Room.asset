@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8008b5aebf0a08e4aa432b7bc39bd766, type: 3}
+  m_Name: Living Room
+  m_EditorClassIdentifier: Assembly-CSharp::LivingRoom
+  name: Living Room
+  hasDoors: 0
+  description: 
+  northLocation: {fileID: 11400000, guid: 2671c79e155832347b53820f9746da29, type: 2}
+  westLocation: {fileID: 0}
+  eastLocation: {fileID: 11400000, guid: e2e5767893c27ef41b3111cad1960470, type: 2}
+  southLocation: {fileID: 11400000, guid: b24cc1720fe9f7748b74cd43751c4398, type: 2}
+  room: {fileID: 0}
+  cameraColor: {x: 0, y: 0, z: 0, w: 0}
+  instance: {fileID: 0}
+  buttonLocation: {x: -683, y: -149}
+  itemButtonLocation: {x: 0, y: -149}
+  defaultText: Fireplace
+  phase0Text: There seems to be something in here, but you can't get past the metal
+    screen.
+  useItemText: Use Pliers
+  usedItemText: You see the glint of something metal, but you should put out the
+    fire before reaching in.
+  phase2Text: You're able to dig through the ashes. There's a key here.
+  useitemText2: Take photo album?
+  phase3Text: Nothing left here but soggy wood.
+  gainedItem: ALBUM

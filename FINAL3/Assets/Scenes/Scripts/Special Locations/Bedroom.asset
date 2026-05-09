@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc4849c3f26c20447927149fd5f3b299, type: 3}
+  m_Name: Bedroom
+  m_EditorClassIdentifier: Assembly-CSharp::Bedroom
+  name: Bedroom
+  hasDoors: 0
+  description: 
+  northLocation: {fileID: 0}
+  westLocation: {fileID: 11400000, guid: 761ba2a07c4382748b139c4c6726a597, type: 2}
+  eastLocation: {fileID: 0}
+  southLocation: {fileID: 0}
+  room: {fileID: 0}
+  cameraColor: {x: 0, y: 0, z: 0, w: 0}
+  instance: {fileID: 0}
+  buttonLocation: {x: 675, y: 3}
+  itemButtonLocation: {x: 4, y: -173}
+  defaultText: Drawer
+  phase0Text: There's a small key in here.
+  itemText: Take Key?
+  phase3Text: There's nothing in here.
