@@ -336,15 +336,15 @@ public class GameManager : MonoBehaviour
     //TOD0: Button Action function that handles the button behavior 
 
 
-    public void SpecialClick()
-    {
+    // public void SpecialClick()
+    // {
+    //
+    //     currentLocation.Special();
+    // }
 
-        currentLocation.Special();
-    }
-
-    public void UpdateText();
-    {
-
-    }
+    // public void UpdateText();
+    // {
+    //
+    // }
 
 }

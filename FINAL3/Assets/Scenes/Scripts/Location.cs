@@ -94,16 +94,16 @@ public class Location : ScriptableObject
     //do item function
     //in location, create enum of the special type
     //if(SpecialTpe = updateText)
-    public void Special()
-    {
-        if(special_type = updateText)
-        {
-            //THIS IS ALL THE BUTTON FUNCTIONS BASED ON THE ENUM STATE OF THE LOCATION
-            GameManager.instance.UpdateText();
-            GameManager.instance.UpdateButton(); //updates the button text and display text AND changes the enum state of the living room
-            //IN GAME MANAGER, WHEN YOU DO UPDATE TEXT 
-        }
-    }
+    // public void Special()
+    // {
+    //     if(special_type = updateText)
+    //     {
+    //         //THIS IS ALL THE BUTTON FUNCTIONS BASED ON THE ENUM STATE OF THE LOCATION
+    //         GameManager.instance.UpdateText();
+    //         GameManager.instance.UpdateButton(); //updates the button text and display text AND changes the enum state of the living room
+    //         //IN GAME MANAGER, WHEN YOU DO UPDATE TEXT 
+    //     }
+    // }
     
     //IN LIVING ROOM HAS TEXT, INVENTORY ITEMS (ADD ITEMS THROUGH LOCATION.ADDITEMS)
 }
