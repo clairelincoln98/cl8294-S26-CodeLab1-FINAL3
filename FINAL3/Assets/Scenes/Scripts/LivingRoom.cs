@@ -67,12 +67,12 @@ public class LivingRoom : Location
                 //checks if the player has pliers
                 if (gm.hasPliers)
                 {
+                    gm.locationDescriptionDisplay.text = "There seems to be something in here, but I can't get past the metal screen.";
                     currentState = stateEnum.hasItemOne;
                     string itemName = "";
                     string currentText = "Looks like someone tried to burn a journal of some kind. It might help me get out of here, but I need to put out this fire.";
                     Debug.Log(currentText);
                     string buttonText = useItemText;
-
                     gm.SpecialClick(currentText, buttonText, itemName);
                 }
                 else
@@ -81,6 +81,7 @@ public class LivingRoom : Location
                 }
 
                 break;
+          
 
             case stateEnum.ItemOneUsed:
 
