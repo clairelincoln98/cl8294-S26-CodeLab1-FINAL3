@@ -38,8 +38,15 @@ public class LivingRoom : Location
 
 //a function that determines what happens when the player enters the living room
 
-    public override void OnEnter(GameManager gm) 
+    public override void OnEnter(GameManager gm)
     {
+        if (!gm.roomsLoaded.Contains(this.name))
+        {
+            //IF THE ROOM HAS NOT BEEN LOCKED YET, SET ME BACK TO ME ORIGINAL STATE 
+            currentState  = stateEnum.Locked;
+            //ADD ME TO THE LIST OF ROOMS LOADED
+            gm.roomsLoaded.Add(this.name);
+        }
         //Debug.Log("NewOnEnter");
         //calls CreateButton from game manager and feeds it the location button and the button's default name text
         specialButton = ButtonCreator.instance.CreateButton(defaultText);
@@ -70,12 +77,13 @@ public class LivingRoom : Location
         gm.CheckItems();
         Debug.Log("reveal text called");
 
-       
+                //CHECK MY STATE
                 if (currentState == stateEnum.Locked)
                 {
                     Debug.Log("locked");
                     gm.locationDescriptionDisplay.text = "There seems to be something in here, but I can't get past the metal screen.";
-
+                    
+                    //CHECK THE ITEM
                     if (gm.hasPliers)
                     {
                         string itemName = "PLIERS";

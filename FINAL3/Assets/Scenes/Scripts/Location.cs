@@ -79,11 +79,6 @@ public class Location : ScriptableObject
         
     }
     
-    public virtual void secondTakeItem(GameManager gm)
-    {
-        
-    }
-
     public virtual void ItemUsed(GameManager gm, string useItemName)
     {
         

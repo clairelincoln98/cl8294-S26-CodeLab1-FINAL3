@@ -55,6 +55,9 @@ public class GameManager : MonoBehaviour
     public GameObject upstairsHall;
     // A dictionary to represent what items they have.
     public List<string> itemsOwned = new List<string>();
+   
+    //to check that the room has been loaded already
+    public List<string> roomsLoaded = new List<string>();
     
     //private Dictionary<string, string> storyTagsCollected = new Dictionary<string, string>();
    
@@ -81,6 +84,7 @@ public class GameManager : MonoBehaviour
         
         startingLocation.UpdateLocationDisplay(this);
         currentLocation = startingLocation;
+       
         
 
     }
