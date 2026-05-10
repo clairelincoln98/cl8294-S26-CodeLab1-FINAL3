@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -13,7 +14,16 @@ public class LivingRoom : Location
     GameObject useItemButton;
     public Vector2 buttonLocation = new Vector2(-749, 3);
      
+    public enum stateEnum{
+		
+        Locked,
+        Unlocked,
+        FireDoused,
+        NothingtoDo,
+		
+    }
     
+    public stateEnum currentState  = stateEnum.Locked;
     //text variables
     public string defaultText = "Fireplace";
     public string phase0Text = "There seems to be something in here, but you can't get past the metal screen.";
@@ -58,66 +68,67 @@ public class LivingRoom : Location
         
         //calls check items from game manager to see what items the player has
         gm.CheckItems();
-        currentState = stateEnum.Locked;
-        switch (currentState)
+        Debug.Log("reveal text called");
 
-        {
-            case stateEnum.Locked:
-
-                //checks if the player has pliers
-                if (gm.hasPliers)
+       
+                if (currentState == stateEnum.Locked)
                 {
+                    Debug.Log("locked");
                     gm.locationDescriptionDisplay.text = "There seems to be something in here, but I can't get past the metal screen.";
-                    currentState = stateEnum.hasItemOne;
-                    string itemName = "";
-                    string currentText = "Looks like someone tried to burn a journal of some kind. It might help me get out of here, but I need to put out this fire.";
-                    Debug.Log(currentText);
-                    string buttonText = useItemText;
-                    gm.SpecialClick(currentText, buttonText, itemName);
-                }
-                else
-                {
-                    gm.locationDescriptionDisplay.text = "There seems to be something in here, but I can't get past the metal screen.";
-                }
 
-                break;
-          
-
-            case stateEnum.ItemOneUsed:
-
-                if (gm.hasWater)
-                {
-                    currentState = stateEnum.hasItemTwo;
-                    //gm.itemsOwned.Remove("PLIERS");
-                    string currentText = "It's not a journal, it's a photo album.";
-                    string buttonText = "Take Album?";
-                    string itemName = "Album";
-                    gm.SpecialClick(currentText, buttonText, itemName);
-                    if (gm.hasLetter)
+                    if (gm.hasPliers)
                     {
-                        newText = "It's not a journal, it's a photo album. And this looks like Lila from the letter.";
+                        string itemName = "PLIERS";
+                        string currentText =
+                            "Looks like someone tried to burn a journal of some kind. It might help me get out of here, but I need to put out this fire.";
+                        Debug.Log(currentText);
+                        string buttonText = useItemText;
+                        gm.UpdateTextCreateUseItemButton(currentText, buttonText, itemName);
                     }
+
+                    if (gm.hasWater)
+                    {
+                        gm.locationDescriptionDisplay.text = "There seems to be something in here, but I can't get past the metal screen.";
+                    }
+                }
+            
+                
+                if (currentState == stateEnum.Unlocked)
+                {
+                    if (gm.hasWater)
+                    {
+                        //currentState = stateEnum.hasItemTwo;
+                        //gm.itemsOwned.Remove("PLIERS");
+                        string currentText = "It's not a journal, it's a photo album.";
+                        string buttonText = "Take Album?";
+                        string itemName = "Album";
+                        gm.UpdateTextCreateTakeItemButton(currentText, buttonText, itemName);
+                    }
+
                     else
                     {
-                        newText = "It's not a journal, it's a photo album.";
+                        gm.locationDescriptionDisplay.text = "I need to put this fire out.";
                     }
-
-                    gm.locationDescriptionDisplay.text = newText;
+                   
 
                 }
+                // else
+                // {
+                //     gm.locationDescriptionDisplay.text = "I need to put this fire out";
+                // }
 
-                break;
-            case stateEnum.NothingtoDo:
-                if (gm.hasAlbum)
+
+
+                if (currentState == stateEnum.FireDoused)
                 {
-                    currentState = stateEnum.NothingtoDo;
-                    gm.locationDescriptionDisplay.text = phase3Text;
+
+                    if (gm.hasAlbum)
+                    {
+                        currentState = stateEnum.NothingtoDo;
+                        gm.locationDescriptionDisplay.text = "Nothing to do here";
+                    }
                 }
-
-                break;
                 
-
-        }
     }
 
 
@@ -131,7 +142,19 @@ public class LivingRoom : Location
         Destroy(useItemButton);
     }
 
-    
+    public override void ItemUsed(GameManager gm, string useItemName)
+    {
+        if (useItemName == "PLIERS" && currentState == stateEnum.Locked)
+        {
+            currentState = stateEnum.Unlocked;
+        }
+        
+        if (useItemName == "WATER" && currentState == stateEnum.Unlocked)
+        {
+            currentState = stateEnum.FireDoused;
+        }
+        
+    }
     
     
 }

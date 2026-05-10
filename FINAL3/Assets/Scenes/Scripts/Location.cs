@@ -22,20 +22,9 @@ public class Location : ScriptableObject
 
     public GameObject room;
     public Vector4 cameraColor;
-
     
-    public enum stateEnum{
-		
-        Locked,
-        hasItemOne,
-        ItemOneUsed,
-        hasItemTwo,
-        ItemTwoUsed,
-        NothingtoDo,
-		
-    }
     
-    public stateEnum currentState = stateEnum.Locked;
+   
     // public ButtonDef[] buttonList;
 
     public virtual void OnEnter(GameManager gm)
@@ -95,37 +84,41 @@ public class Location : ScriptableObject
         
     }
 
+    public virtual void ItemUsed(GameManager gm, string useItemName)
+    {
+        
+    }
     
     
     //take item function
     //do item function
     //in location, create enum of the special type
    
-    public void Special(string currentText, string buttonText, string itemName)
-    {
-        Debug.Log("special called)");
-        if(currentState == stateEnum.hasItemOne)
-       {
-            GameManager.instance.UpdateTextCreateUseItemButton(currentText, buttonText);
-            //GameManager.instance.UpdateButtonText()
-            //GameManager.instance.UpdateButton(); //updates the button text and display text AND changes the enum state of the living room
-            //IN GAME MANAGER, WHEN YOU DO UPDATE TEXT 
-        }
-       
-        
-        if(currentState == stateEnum.ItemOneUsed)
-        {
-            //Debug.Log("hasItemTwo");
-            GameManager.instance.UpdateTextCreateTakeItemButton(currentText, buttonText, itemName); 
-        }
-        
-        if(currentState == stateEnum.hasItemTwo)
-        {
-            Debug.Log("hasItemTwo");
-            GameManager.instance.UpdateTextCreateTakeItemButton(currentText, buttonText, itemName);
-        }
-        
-    }
+    // public void Special(string currentText, string buttonText, string itemName)
+    // {
+    //     Debug.Log("special called)");
+    //     if(currentState == stateEnum.Locked && gm)
+    //    {
+    //         GameManager.instance.UpdateTextCreateUseItemButton(currentText, buttonText);
+    //         //GameManager.instance.UpdateButtonText()
+    //         //GameManager.instance.UpdateButton(); //updates the button text and display text AND changes the enum state of the living room
+    //         //IN GAME MANAGER, WHEN YOU DO UPDATE TEXT 
+    //     }
+    //    
+    //     
+    //     if(currentState == stateEnum.Unlocked)
+    //     {
+    //         Debug.Log("ItemOneUsed");
+    //         GameManager.instance.UpdateTextCreateTakeItemButton(currentText, buttonText, itemName); 
+    //     }
+    //     
+    //     if(currentState == stateEnum.hasItemTwo)
+    //     {
+    //         Debug.Log("hasItemTwo");
+    //         GameManager.instance.UpdateTextCreateTakeItemButton(currentText, buttonText, itemName);
+    //     }
+    //     
+    // }
     
     //IN LIVING ROOM HAS TEXT, INVENTORY ITEMS (ADD ITEMS THROUGH LOCATION.ADDITEMS)
 }
