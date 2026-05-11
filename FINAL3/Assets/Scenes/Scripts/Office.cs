@@ -92,7 +92,7 @@ public class Office : Location
         if (currentState == stateEnum.Unlocked)
         {
             
-            gm.UpdateTextCreateUseItemButton("Letter contents", "Read Letter?", "LETTER"); 
+            gm.UpdateTextCreateUseItemButton("Dear Lila - I know you hold secrets behind that smile.", "Read Letter?", "LETTER"); 
         }
 
         

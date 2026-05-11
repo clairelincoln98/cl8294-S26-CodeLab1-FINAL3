@@ -29,10 +29,30 @@ public class UpstairsHall : Location
     public bool specialLocation;
  
 
+    
+    public enum stateEnum{
+		
+        doesntKnowLila,
+        lilaNameKnown,
+        lilaFaceKnown,
+        lilaKnown,
+        NothingHere,
+		
+    }
+    
+    public stateEnum currentState  = stateEnum.doesntKnowLila;
 //a function that determines what happens when the player enters the living room
 
     public override void OnEnter(GameManager gm) 
     {
+        
+        if (!gm.roomsLoaded.Contains(this.name))
+        {
+            //IF THE ROOM HAS NOT BEEN LOCKED YET, SET ME BACK TO ME ORIGINAL STATE 
+            currentState  = stateEnum.doesntKnowLila;
+            //ADD ME TO THE LIST OF ROOMS LOADED
+            gm.roomsLoaded.Add(this.name);
+        }
         //Debug.Log("NewOnEnter");
         //calls CreateButton from game manager and feeds it the location button and the button's default name text
         specialButton = ButtonCreator.instance.CreateButton(defaultText);
@@ -66,52 +86,74 @@ public class UpstairsHall : Location
         
         
         //USE THE LETTER ONCE TO NOTICE THE PAINTING
-        if (gm.hasLetter && gm.hasAlbum)
+        if (currentState == stateEnum.doesntKnowLila)
         {
-            newText = firstInspectionText;
-            gm.itemsOwned.Remove("LETTER");
-            //button that prompts player to take down the painting/take a closer look
-            inspectButton2 = ButtonCreator.instance.CreateButton(inspectText);
-            Button keyButtonComp = inspectButton2.GetComponent<Button>();
-            inspectButton2.transform.localPosition = itemButtonLocation;
-            
-            //adds letter 2 to inventory to trigger next inspection 
-            //keyButtonComp.onClick.AddListener(() => gm.UseItem(secondInspectText));
-            
-        }
-        
-        //USE THE LETTER TWICE TO TAKE THE PAINTING DOWN
-        if (gm.hasLetter2)
-        {
-            //take a second look and get map
-            specialUseItem(gm);
-            
-        }
-        
+            gm.locationDescriptionDisplay.text = "Another strange portrait.";
+            if (gm.hasLetter)
+            {
+                gm.locationDescriptionDisplay.text = "I wonder who this woman is.";
+                currentState = stateEnum.lilaNameKnown;
+            }
 
-        if (gm.hasMap)
-        {
-            newText = "The painting left behind a white spot. These walls are dirtier than I thought.";
+            if (gm.hasAlbum)
+            {
+                gm.locationDescriptionDisplay.text = "This must be Lila, I saw her in the photo album.";
+                currentState = stateEnum.lilaFaceKnown;
+            }
         }
-        gm.locationDescriptionDisplay.text = newText;
+        
+        if (currentState == stateEnum.lilaNameKnown)
+        {
+            if (gm.hasLetter && !gm.hasAlbum)
+            {
+                gm.locationDescriptionDisplay.text = "I wonder who this woman is.";
+            }
+
+            if (gm.hasAlbum)
+            {
+                gm.locationDescriptionDisplay.text = "This must be Lila, I saw her in the photo album.";
+                gm.UpdateTextCreateUseItemButton("There must be something special about this painting.", "Inspect painting?", "LETTER");
+            }
+            
+        }
+        
+        if (currentState == stateEnum.lilaFaceKnown)
+        {
+            if (gm.hasAlbum && !gm.hasLetter)
+            {
+                gm.locationDescriptionDisplay.text = "This must be Lila, I saw her in the photo album.";
+            }
+            
+        }
+
+        if (currentState == stateEnum.lilaKnown)
+        {
+            gm.UpdateTextCreateUseItemButton("There's a map here, tucked behind the canvas.", "Take a closer look?", "ALBUM");
+        }
+
+        if (currentState == stateEnum.NothingHere)
+        {
+            gm.locationDescriptionDisplay.text =
+                "There's a white spot on the wall where the painting used to hang. These walls are dirtier than I thought";
+        }
 
 
     }
 
 
-  
-    // public override void specialUseItem(GameManager gm)
-    // {
-    //         Debug.Log("double painting triggered");
-    //         inspectButton = ButtonCreator.instance.CreateButton(takeItemText);
-    //         inspectButton.transform.localPosition = itemButtonLocation;
-    //         Button itemButtonComp = inspectButton.GetComponent<Button>();
-    //         //calls takeItem in game manager to add key to inventory when take key is pressed 
-    //         itemButtonComp.onClick.AddListener(() => gm.secondTakeItemReveal(secondInspectionText, "MAP"));
-    //         
-    // }
-    //
-    
+    public override void ItemUsed(GameManager gm, string useItemName)
+    {
+        //overrides location to mark that an item has been used and to change the state associated with said item
+        if (useItemName == "LETTER" && currentState == stateEnum.lilaNameKnown)
+        {
+            currentState = stateEnum.lilaKnown;
+        }
+        if (useItemName == "ALBUM" && currentState == stateEnum.lilaKnown)
+        {
+            currentState = stateEnum.NothingHere;
+        }
+        
+    }
     public override void DestroyButton()
     {
         Destroy(inspectButton);
