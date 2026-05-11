@@ -9,11 +9,18 @@ using UnityEngine.UI;
 public class LivingRoom : Location
 {
     //button variables
+    //SPECIAL LOCATION BUTTON, EXAMPLE: FIREPLACE
     GameObject specialButton;
+    //ITEM BUTTON THAT ASKS YOU TO TAKE AN ITEM
     GameObject itemButton;
+    //USE ITEM BUTTON THAT ASKS YOU TO USE ITEM
     GameObject useItemButton;
+    //BUTTON LOCATION
     public Vector2 buttonLocation = new Vector2(-749, 3);
      
+    
+        //enum created for living room states
+        //keeps track of what the button should do when
     public enum stateEnum{
 		
         Locked,
@@ -86,14 +93,15 @@ public class LivingRoom : Location
                     //CHECK THE ITEM
                     if (gm.hasPliers)
                     {
+                        //THIS INFO (STRINGS) GETS FED INTO THE GAME MANAGER FUNCTION
                         string itemName = "PLIERS";
-                        string currentText =
-                            "Looks like someone tried to burn a journal of some kind. It might help me get out of here, but I need to put out this fire.";
+                        string currentText = "Looks like someone tried to burn a journal of some kind. It might help me get out of here, but I need to put out this fire.";
                         Debug.Log(currentText);
                         string buttonText = useItemText;
                         gm.UpdateTextCreateUseItemButton(currentText, buttonText, itemName);
                     }
-
+                    
+                    //THIS IS BECAUSE THE FIREPLACE CAN STILL BE LOCKED EVEN IF PLAYER HAS PLIERS
                     if (gm.hasWater)
                     {
                         gm.locationDescriptionDisplay.text = "There seems to be something in here, but I can't get past the metal screen.";
@@ -105,31 +113,28 @@ public class LivingRoom : Location
                 {
                     if (gm.hasWater)
                     {
-                        //currentState = stateEnum.hasItemTwo;
                         //gm.itemsOwned.Remove("PLIERS");
-                        string currentText = "It's not a journal, it's a photo album.";
+                        //IF THE FIREPLACE IS UNLOCKED AND NOW THE PLAYER HAS WATER, THEY CAN DOUSE IT
+                        string currentText = "I'm able to reach in now....This isn't a journal, it's a photo album.";
                         string buttonText = "Take Album?";
                         string itemName = "Album";
+                        //THIS IS WHAT HAPPENS ONCE THE FIRE IS DOUSED.
                         gm.UpdateTextCreateTakeItemButton(currentText, buttonText, itemName);
                     }
 
                     else
                     {
+                        //this is for when the fireplace is unlocked, but the player still needs the water
                         gm.locationDescriptionDisplay.text = "I need to put this fire out.";
                     }
                    
 
                 }
-                // else
-                // {
-                //     gm.locationDescriptionDisplay.text = "I need to put this fire out";
-                // }
-
 
 
                 if (currentState == stateEnum.FireDoused)
                 {
-
+                    //IF THE FIREPLACE IS DOUSED AND THE PLAYER HAS ALBUM, THERE'S NOTHING LEFT TO DO AT THIS SPECIAL BUTTON
                     if (gm.hasAlbum)
                     {
                         currentState = stateEnum.NothingtoDo;
@@ -152,6 +157,7 @@ public class LivingRoom : Location
 
     public override void ItemUsed(GameManager gm, string useItemName)
     {
+        //overrides location to mark that an item has been used and to change the state associated with said item
         if (useItemName == "PLIERS" && currentState == stateEnum.Locked)
         {
             currentState = stateEnum.Unlocked;

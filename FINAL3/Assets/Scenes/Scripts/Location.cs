@@ -13,14 +13,12 @@ public class Location : ScriptableObject
     //scriptable object is something that can store data in fields
     public string name;
     
-    public bool hasDoors;
     public string description; //description of room
     public Location northLocation; //locations
     public Location westLocation;
     public Location eastLocation;
     public Location southLocation;
-
-    public GameObject room;
+    
     public Vector4 cameraColor;
     
     
@@ -76,18 +74,15 @@ public class Location : ScriptableObject
 
     public virtual void specialUseItem(GameManager gm)
     {
-        
+        //THIS IS THE OLD METHOD TO KEEP LOGIC FUNCTIONING FOR THE OTHER ROOMS (AKA NOT LIVING ROOM)
     }
     
     public virtual void ItemUsed(GameManager gm, string useItemName)
     {
-        
+        //GETS OVERRIDED BY SPECIFIC LOCATION
     }
     
-    
-    //take item function
-    //do item function
-    //in location, create enum of the special type
+    //I TRIED TO DO THE ENUM CHECK AND SPECIAL CLICK CALL IN GAME MANAGER, BUT IT ULTIMATELY DIDN'T SEEM TO WORK SINCE THE ROOMS ARE TOO BESPOKE
    
     // public void Special(string currentText, string buttonText, string itemName)
     // {

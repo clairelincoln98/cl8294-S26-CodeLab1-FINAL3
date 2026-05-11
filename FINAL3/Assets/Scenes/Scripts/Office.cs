@@ -25,6 +25,16 @@ public class Office : Location
     public string secondItemDescritpion = "BLAH BLAH BLAH";
     public string secondItemName = "LETTER";
 
+    
+    public enum stateEnum{
+		
+        Locked,
+        Unlocked,
+        HasLetter,
+		
+    }
+    
+    public stateEnum currentState  = stateEnum.Locked;
 
  
 
@@ -32,6 +42,14 @@ public class Office : Location
 
     public override void OnEnter(GameManager gm) 
     {
+        if (!gm.roomsLoaded.Contains(this.name))
+        {
+            //IF THE ROOM HAS NOT BEEN LOCKED YET, SET ME BACK TO ME ORIGINAL STATE 
+            currentState  = stateEnum.Locked;
+            //ADD ME TO THE LIST OF ROOMS LOADED
+            gm.roomsLoaded.Add(this.name);
+        }
+        
         //Debug.Log("NewOnEnter");
         //calls CreateButton from game manager and feeds it the location button and the button's default name text
         specialButton = ButtonCreator.instance.CreateButton(defaultText);
@@ -58,44 +76,63 @@ public class Office : Location
     {
         gm.CheckItems();
         
-        
-        
         //calls check items from game manager to see what items the player has
-        
 
-        if (gm.hasKey && (gm.hasLetter == false))
+        if (currentState == stateEnum.Locked)
         {
-            //sets the description text to the next phase of fireplace response
-            useItemButton2 = ButtonCreator.instance.CreateButton(useItemText);
-            Button keyButtonComp = useItemButton2.GetComponent<Button>();
-            useItemButton2.transform.localPosition = itemButtonLocation;
-            //calls takeItem in game manager to add key to inventory when take key is pressed 
-            //keyButtonComp.onClick.AddListener(() => gm.UseItem(usedItemText));
+            gm.locationDescriptionDisplay.text = "It's locked.";
+            if (gm.hasKey)
+            {
+                gm.UpdateTextCreateUseItemButton("There's a letter in here.", "Use Key?", "KEY");
+            
+            }
             
         }
 
-        if (gm.hasLetter)
+        if (currentState == stateEnum.Unlocked)
         {
-            phase0Text = "This letter might be important.";
-            specialUseItem(gm);
+            
+            gm.UpdateTextCreateUseItemButton("Letter contents", "Read Letter?", "LETTER"); 
         }
-        gm.locationDescriptionDisplay.text = phase0Text;
+
+        
+
+        if (currentState == stateEnum.HasLetter)
+        {
+            gm.locationDescriptionDisplay.text = "This letter might be important.";
+            gm.UpdateTextCreateUseItemButton("Letter contents", "Read Letter?", "LETTER");
+        }
 
 
     }
 
 
     
-
-    public override void specialUseItem(GameManager gm)
+    public override void ItemUsed(GameManager gm, string useItemName)
     {
-        // //Debug.Log(gm.itemUsed);
-        // useItemButton = ButtonCreator.instance.CreateButton(secondUseItemText);
-        // useItemButton.transform.localPosition = itemButtonLocation;
-        // Button itemButtonComp = useItemButton.GetComponent<Button>();
-        // //calls takeItem in game manager to add key to inventory when take key is pressed 
-        // itemButtonComp.onClick.AddListener(() => gm.secondTakeItemReveal(secondItemDescritpion, secondItemName));
+        //overrides location to mark that an item has been used and to change the state associated with said item
+        if (useItemName == "KEY" && currentState == stateEnum.Locked)
+        {
+            currentState = stateEnum.Unlocked;
+        }
+        
+        if (useItemName == "KEY" && currentState == stateEnum.Unlocked)
+        {
+            currentState = stateEnum.HasLetter;
+            gm.UpdateTextCreateUseItemButton("Letter contents", "Read Letter?", "LETTER");
+        }
+        
     }
+
+    // public override void specialUseItem(GameManager gm)
+    // {
+    //     //Debug.Log(gm.itemUsed);
+    //     useItemButton = ButtonCreator.instance.CreateButton(secondUseItemText);
+    //     useItemButton.transform.localPosition = itemButtonLocation;
+    //     Button itemButtonComp = useItemButton.GetComponent<Button>();
+    //     //calls takeItem in game manager to add key to inventory when take key is pressed 
+    //     itemButtonComp.onClick.AddListener(() => 
+    // }
     public override void DestroyButton()
     {
         Destroy(useItemButton);

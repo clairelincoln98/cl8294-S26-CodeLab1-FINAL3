@@ -21,14 +21,6 @@ public class GameManager : MonoBehaviour
     
     GameObject itemButton;
     public Vector2 itemButtonLocation;
-
-    public GameObject fireplace;
-    public GameObject desk;
-    public GameObject bath;
-    public GameObject cabinent;
-    public GameObject crack;
-    public GameObject frontdoor;
-    
     
     public string itemUsedText;
     public static GameManager instance;
@@ -40,10 +32,8 @@ public class GameManager : MonoBehaviour
     public bool hasAlbum;
     public bool hasLetter;
     public bool hasLetter2;
-    public bool hasPainting;
     public bool hasMap;
     public bool itemUsed;
-    public bool isDoubleLocation;
     
     public GameObject livingRoom;
     public GameObject hallway;
@@ -65,6 +55,7 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //CLEARS THE INVENTORY SO THEY DON'T CARRY OVER
         itemsOwned.Clear();
         if (instance == null)
         {
@@ -135,8 +126,6 @@ public class GameManager : MonoBehaviour
         currentLocation.UpdateLocationDisplay(this);
         //Debug.Log("Current location:" + currentLocation);
         
-        // currentLocation.ChangeCameraColor(); //calls on location to change the camera color based on the current location's values
-       
         //activates visuals for specific room
         ActivateRoom();
         
@@ -181,13 +170,11 @@ public class GameManager : MonoBehaviour
         if (currentLocation.name == "Office")
         {
             office.SetActive(true);
-            isDoubleLocation = true;
         }
         
         if (currentLocation.name == "Upstairs Hall")
         {
             upstairsHall.SetActive(true);
-            isDoubleLocation = true;
         }
     }
     public void DeactivateRoom() //calls a function in Location script that updates the background color
@@ -227,13 +214,14 @@ public class GameManager : MonoBehaviour
         itemsOwned.Add(itemName); 
         //checks the item
         //Debug.Log(itemName); 
-        //changes the description display to "You Have: <item>"
+       
         if (itemName == "LETTER")
         {
             locationDescriptionDisplay.text = "BLAH BLAH BLAH";
         }
         else
         {
+            //changes the description display to "You Have: <item>"
             locationDescriptionDisplay.text = "You have:" + itemName;
             // Debug.Log("You have" + itemName);
         }
@@ -283,11 +271,6 @@ public class GameManager : MonoBehaviour
       if(itemsOwned.Contains("LETTER"))
       {
           hasLetter = true;
-      }
-      
-      if(itemsOwned.Contains("PAINTING"))
-      {
-          hasPainting = true;
       }
       
       if(itemsOwned.Contains("MAP"))
