@@ -88,47 +88,57 @@ public class UpstairsHall : Location
         //USE THE LETTER ONCE TO NOTICE THE PAINTING
         if (currentState == stateEnum.doesntKnowLila)
         {
-            gm.locationDescriptionDisplay.text = "Another strange portrait.";
+            
             if (gm.hasLetter)
             {
                 gm.locationDescriptionDisplay.text = "I wonder who this woman is.";
-                currentState = stateEnum.lilaNameKnown;
+                //we know the name 
+                gm.UpdateTextCreateUseItemButton("I guess it's not that important.", "Inspect painting?", "LETTER");
             }
 
             if (gm.hasAlbum)
             {
-                gm.locationDescriptionDisplay.text = "This must be Lila, I saw her in the photo album.";
-                currentState = stateEnum.lilaFaceKnown;
+                gm.locationDescriptionDisplay.text = "I saw this woman in the photo album.";
+                //we know a face
+                gm.UpdateTextCreateUseItemButton("She has a creepy smile.", "Inspect painting?", "ALBUM");
             }
+
+            else
+            {
+                gm.locationDescriptionDisplay.text = "Another strange portrait.";
+            }
+
+            gm.locationDescriptionDisplay.text = "Another strange portrait.";
         }
         
         if (currentState == stateEnum.lilaNameKnown)
         {
-            if (gm.hasLetter && !gm.hasAlbum)
+            if (gm.hasLetter)
             {
-                gm.locationDescriptionDisplay.text = "I wonder who this woman is.";
+                gm.UpdateTextCreateUseItemButton("I wonder who this woman is.", "Inspect painting?", "LETTER");
             }
-
             if (gm.hasAlbum)
             {
-                gm.locationDescriptionDisplay.text = "This must be Lila, I saw her in the photo album.";
-                gm.UpdateTextCreateUseItemButton("There must be something special about this painting.", "Inspect painting?", "LETTER");
+                gm.UpdateTextCreateUseItemButton("This must be Lila, I saw her in the photo album.", "Inspect painting?", "ALBUM");
             }
             
         }
         
         if (currentState == stateEnum.lilaFaceKnown)
         {
-            if (gm.hasAlbum && !gm.hasLetter)
+            if (gm.hasLetter)
             {
-                gm.locationDescriptionDisplay.text = "This must be Lila, I saw her in the photo album.";
+                gm.UpdateTextCreateUseItemButton("This must be Lila, I saw her in the photo album.", "Inspect painting?", "LETTER");
             }
-            
+            if (gm.hasAlbum)
+            {
+                gm.UpdateTextCreateUseItemButton("This must be Lila, I saw her in the photo album.", "Inspect painting?", "ALBUM");
+            }
         }
 
         if (currentState == stateEnum.lilaKnown)
         {
-            gm.UpdateTextCreateUseItemButton("There's a map here, tucked behind the canvas.", "Take a closer look?", "ALBUM");
+            gm.UpdateTextCreateTakeItemButton("There's a map here, tucked behind the canvas.", "Take a closer look?", "MAP");
         }
 
         if (currentState == stateEnum.NothingHere)
@@ -144,10 +154,26 @@ public class UpstairsHall : Location
     public override void ItemUsed(GameManager gm, string useItemName)
     {
         //overrides location to mark that an item has been used and to change the state associated with said item
-        if (useItemName == "LETTER" && currentState == stateEnum.lilaNameKnown)
+        
+        if (useItemName == "LETTER" && currentState == stateEnum.doesntKnowLila)
+        {
+            currentState = stateEnum.lilaNameKnown;
+        }
+        
+        if (useItemName == "ALBUM" && currentState == stateEnum.doesntKnowLila)
+        {
+            currentState = stateEnum.lilaFaceKnown;
+        }
+        
+        if (useItemName == "LETTER" && currentState == stateEnum.lilaFaceKnown)
         {
             currentState = stateEnum.lilaKnown;
         }
+        if (useItemName == "ALBUM" && currentState == stateEnum.lilaNameKnown)
+        {
+            currentState = stateEnum.lilaKnown;
+        }
+        
         if (useItemName == "ALBUM" && currentState == stateEnum.lilaKnown)
         {
             currentState = stateEnum.NothingHere;
